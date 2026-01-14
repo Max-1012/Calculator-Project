@@ -16,15 +16,18 @@ public class App {
                 num1 = scanner.nextInt();
                 System.out.print("두 번째 숫자를 입력하세요 : ");
                 num2 = scanner.nextInt();
+                if(num1< 0 || num2 <0){
+                    throw new Exception();
+                }
             }catch (Exception e){
-                System.out.println("정수형 값을 입력하세요");
+                System.out.println("양의 정수 값을 입력하세요");
                 scanner.nextLine();
                 continue;
             }
 
             System.out.print("사칙 연산 기호를 입력하세요 : ");
             char operator = scanner.next().charAt(0);
-            Object result;
+            int result;
             try{
                 result = calculator.calculate(num1,num2,operator);
 
@@ -35,14 +38,7 @@ public class App {
                 System.out.println("계산 도중 문제가 발생했습니다.");
                 continue;
             }
-            // 계산 결과 타입 확인
-            if(result instanceof Integer){
-                int intResult = (int)result;
-                System.out.println("결과 : "+intResult);
-            }else if(result instanceof Double){
-                double doubleResult = (double)result;
-                System.out.println("결과 : "+doubleResult);
-            }
+            System.out.println("결과 : " + result);
 
             System.out.print("더 계산하시겠습니까? (exit 입력 시 종료) :");
             String str = scanner.next();
@@ -53,14 +49,14 @@ public class App {
         }
 
         // Getter 확인
-        List<Object> resultList = calculator.getResultList();
+        List<Integer> resultList = calculator.getResultList();
         System.out.println("resultList = "+ resultList);
 
         // removeResult 함수 확인
          System.out.println("removedList = "+ calculator.removeResult());
 
         // Setter 확인
-        List<Object> newList = new ArrayList<>(List.of(1,2,3,4,5));
+        List<Integer> newList = new ArrayList<>(List.of(1,2,3,4,5));
          System.out.println("newList = "+ newList);
          calculator.setResultList(newList);
          System.out.println("calculator.getResultList = "+ calculator.getResultList());
