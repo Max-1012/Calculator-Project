@@ -1,5 +1,6 @@
 package step1;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -9,10 +10,18 @@ public class Main {
 
         boolean exit = false;
         while(!exit){
-            System.out.print("첫 번째 숫자를 입력하세요 : ");
-            int num1 = scanner.nextInt();
-            System.out.print("두 번째 숫자를 입력하세요 : ");
-            int num2 = scanner.nextInt();
+            int num1,num2;
+            try{
+                System.out.print("첫 번째 숫자를 입력하세요 : ");
+                num1 = scanner.nextInt();
+                System.out.print("두 번째 숫자를 입력하세요 : ");
+                num2 = scanner.nextInt();
+            }catch (Exception e){
+                System.out.println("정수형 값을 입력하세요");
+                scanner.nextLine();
+                continue;
+            }
+
 
             if(num1<0 || num2 <0){
                 System.out.println("양의 정수를 입력하세요.");
@@ -48,8 +57,9 @@ public class Main {
             String str = scanner.next();
             if(str.equals("exit")){
                 exit = true;
+                System.out.println("계산기 프로그램을 종료합니다.");
+
             }
-            System.out.println("계산기 프로그램을 종료합니다.");
 
         }
 
