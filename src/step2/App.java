@@ -60,10 +60,7 @@ public class App {
          System.out.println("removedList = "+ calculator.removeResult());
 
         // Setter 확인
-        List<Object> newList = new ArrayList<>();
-         for (int i = 0; i < 5; i++) {
-             newList.add(i);
-         }
+        List<Object> newList = new ArrayList<>(List.of(1,2,3,4,5));
          System.out.println("newList = "+ newList);
          calculator.setResultList(newList);
          System.out.println("calculator.getResultList = "+ calculator.getResultList());
