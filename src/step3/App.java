@@ -1,7 +1,6 @@
 package step3;
 
-import step2.Calculator;
-
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,27 +8,25 @@ import java.util.Scanner;
 public class App {
     static void main() {
         Scanner scanner = new Scanner(System.in);
-        Calculator calculator = new Calculator();
+        ArithmeticCalculator calculator = new ArithmeticCalculator<>();
         boolean exit = false;
         while(!exit){
-            int num1,num2;
+            Number num1,num2;
             try{
                 System.out.print("첫 번째 숫자를 입력하세요 : ");
-                num1 = scanner.nextInt();
+                num1 = scanner.nextBigDecimal();
                 System.out.print("두 번째 숫자를 입력하세요 : ");
-                num2 = scanner.nextInt();
-                if(num1< 0 || num2 <0){
-                    throw new Exception();
-                }
+                num2 = scanner.nextBigDecimal();
             }catch (Exception e){
-                System.out.println("양의 정수 값을 입력하세요");
+                System.out.println("숫자 값을 입력하세요");
                 scanner.nextLine();
                 continue;
             }
 
             System.out.print("사칙 연산 기호를 입력하세요 : ");
             char operator = scanner.next().charAt(0);
-            int result;
+
+            Number result;
             try{
                 result = calculator.calculate(num1,num2,operator);
 
@@ -37,10 +34,11 @@ public class App {
                 System.out.println(e.getMessage());
                 continue;
             }catch(Exception e){
-                System.out.println("계산 도중 문제가 발생했습니다.");
+                System.out.println(e.getMessage());
                 continue;
             }
-            System.out.println("결과 : " + result);
+
+            System.out.println("결과 : " + result.toString());
 
             System.out.print("더 계산하시겠습니까? (exit 입력 시 종료) :");
             String str = scanner.next();
@@ -50,18 +48,36 @@ public class App {
             }
         }
 
+
         // Getter 확인
-        List<Integer> resultList = calculator.getResultList();
+        List<Number> resultList = calculator.getResultList();
         System.out.println("resultList = "+ resultList);
+
+        // findBigger 확인
+        while(true){
+            List<Number> biggerList;
+            try{
+                System.out.print("비교 기준 값을 입력하세요 : ");
+                BigDecimal target = scanner.nextBigDecimal();
+                biggerList = calculator.findBigger(target);
+            }catch (Exception e){
+                System.out.println("비교 가능한 숫자 값을 입력하세요");
+                scanner.nextLine();
+                continue;
+            }
+            System.out.println("biggerList = "+ biggerList);
+            break;
+        }
 
         // removeResult 함수 확인
         System.out.println("removedList = "+ calculator.removeResult());
 
         // Setter 확인
-        List<Integer> newList = new ArrayList<>(List.of(1,2,3,4,5));
+        List<Number> newList = new ArrayList<>(List.of(1,2,3,4,5));
         System.out.println("newList = "+ newList);
         calculator.setResultList(newList);
         System.out.println("calculator.getResultList = "+ calculator.getResultList());
+
 
     }
 }

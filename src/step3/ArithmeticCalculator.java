@@ -4,24 +4,31 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ArithmeticCalculator<T> {
 
-    private List<Object> resultList = new ArrayList<Object>();
+    private List<Number> resultList = new ArrayList<Number>();
 
-    public List<Object> getResultList() {
+    public List<Number> getResultList() {
         return resultList;
     }
 
-    public void setResultList(List<Object> resultList) {
+    public void setResultList(List<Number> resultList) {
         this.resultList = resultList;
     }
 
     public <T extends Number> T calculate(T num1, T num2, char operator) {
-        OperatorType opType = OperatorType.from(operator);
+        OperatorType opType;
+        try{
+            opType = OperatorType.from(operator);
+        }catch (IllegalArgumentException e){
+            throw e;
+        }
         BigDecimal n1 = new BigDecimal(num1.toString());
-        BigDecimal n2 = new BigDecimal(num1.toString());
+        BigDecimal n2 = new BigDecimal(num2.toString());
         BigDecimal result;
+
         switch (opType){
             case DIVIDE:
                 if(n2.equals(BigDecimal.ZERO)){
@@ -40,9 +47,19 @@ public class ArithmeticCalculator<T> {
         return (T)result;
     }
 
-    public List<Object> removeResult(){
+    public List<Number> removeResult(){
         resultList.remove(0);
         return resultList;
     }
 
+    public <T extends Number> List<Number> findBigger(T t){
+        BigDecimal target;
+        try{
+            target = new BigDecimal(t.toString());
+        }catch(Exception e){
+            throw e;
+        }
+        return resultList.stream().
+                filter(n -> new BigDecimal(n.toString()).compareTo(target) > 0 ).collect(Collectors.toList());
+    }
 }
